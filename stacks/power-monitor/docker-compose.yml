@@ -4,7 +4,7 @@ services:
     container_name: power-monitor-prometheus
     restart: unless-stopped
     ports:
-      - "9090:9090"
+      - "9096:9096"
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.path=/prometheus
