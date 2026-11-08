@@ -1,3 +1,4 @@
+
 services:
   prometheus:
     image: prom/prometheus:latest
@@ -12,11 +13,14 @@ services:
       - --web.enable-lifecycle
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    configs:
+      - source: prometheus_config
+        target: /etc/prometheus/prometheus.yml
     volumes:
-      - prometheus_config:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
     networks:
       - power-monitor
+
   grafana:
     image: grafana/grafana-oss:latest
     container_name: power-monitor-grafana
@@ -44,3 +48,15 @@ networks:
 volumes:
   prometheus_data:
   grafana_data:
+
+configs:
+  prometheus_config:
+    content: |
+      global:
+        scrape_interval: 15s
+        evaluation_interval: 15s
+
+      scrape_configs:
+        - job_name: powerjoular
+          static_configs:
+            - targets: ["host.docker.internal:9108"]
