@@ -1,0 +1,17 @@
+[Unit]
+Description=PowerJoular Prometheus exporter
+Wants=network-online.target
+After=network-online.target powerjoular.service
+
+[Service]
+Type=simple
+Environment=POWERJOULAR_CSV=/run/powerjoular/powerjoular-service.csv
+Environment=POWERJOULAR_EXPORTER_HOST=172.17.0.1
+Environment=POWERJOULAR_EXPORTER_PORT=9108
+ExecStart=/usr/bin/python3 /opt/power-monitor/exporter/powerjoular_exporter.py
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target
