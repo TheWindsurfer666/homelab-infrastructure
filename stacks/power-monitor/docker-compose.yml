@@ -59,4 +59,4 @@ configs:
       scrape_configs:
         - job_name: powerjoular
           static_configs:
-            - targets: ["host.docker.internal:9108"]
+            - targets: ["172.24.0.1:9108"]
